@@ -32,16 +32,23 @@ class Quarto {
 
     public boolean reservar(Pessoa hospede, LocalDate dataReserva, LocalDate dataDesocupacaoPrevista) {
         if (verificarDisponibilidade()) {
-            this.reservado = true;
-            this.hospedeReserva = hospede;
-            this.dataReserva = dataReserva;
-            this.dataDesocupacaoPrevista = dataDesocupacaoPrevista;
-            return true;
+            if (!reservado) {
+                this.reservado = true;
+                this.hospedeReserva = hospede;
+                this.dataReserva = dataReserva;
+                this.dataDesocupacaoPrevista = dataDesocupacaoPrevista;
+                System.out.println("Quarto reservado com sucesso para " + hospede.getNome());
+                return true;
+            } else {
+                System.out.println("Quarto já reservado.");
+                return false;
+            }
         } else {
             System.out.println("Quarto não disponível para reserva.");
             return false;
         }
     }
+    
 
 
     public void registrarFuncionarioResponsavel(Funcionario funcionario) {
@@ -71,11 +78,12 @@ class Quarto {
     public void consumirItemFrigobar(String item) {
         if (hospede != null) {
             System.out.println(hospede.getNome() + " consumiu o item " + item + " do frigobar");
-           
+            frigobar.removerItem(item); 
         } else {
             System.out.println("Nenhum hóspede no quarto para consumir o item do frigobar.");
         }
     }
+    
 
     public void ocupar(Pessoa hospede) {
         if (disponivel) {
